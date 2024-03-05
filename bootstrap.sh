@@ -48,7 +48,7 @@ if kind get clusters 2>/dev/null | grep -q '^kind$'; then
   log "Cluster already running..."
 else
   log "Starting up kind cluster..."
-  kind create cluster --kubeconfig=$(pwd)/KUBECONFIG --config=./cluster.yml
+  kind create cluster --quiet --kubeconfig=$(pwd)/KUBECONFIG --config=./cluster.yml
   # trust mounted mkCert certificate
   docker exec kind-control-plane update-ca-certificates
 fi
