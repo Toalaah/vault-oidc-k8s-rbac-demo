@@ -1,0 +1,20 @@
+---
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: worker
+- role: control-plane
+  kubeadmConfigPatches:
+    - |
+      kind: ClusterConfiguration
+      apiServer:
+        extraArgs:
+          oidc-issuer-url: 'https://vault.local/v1/identity/oidc/provider/k8s-oidc-provider'
+          oidc-client-id: todo
+          oidc-username-claim: alias
+          oidc-groups-claim: groups
+          oidc-username-prefix: 'vault:'
+          oidc-groups-prefix: 'vault:'
+  extraMounts:
+  - hostPath: ./rootCA.pem
+    containerPath: /usr/local/share/ca-certificates/mkCertRootCA.crt

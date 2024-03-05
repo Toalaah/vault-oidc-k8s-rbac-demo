@@ -1,0 +1,7 @@
+/KUBECONFIG
+/vault/certs/*
+*.tfstate*
+.terraform.lock.hcl
+.terraform
+rootCA.pem
+.direnv

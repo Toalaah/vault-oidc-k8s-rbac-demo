@@ -1,0 +1,50 @@
+services:
+  vault:
+    image: hashicorp/vault:1.15
+    container_name: vault
+    ports:
+      - 8200:8200
+      - 443:443
+    environment:
+      VAULT_ADDR: http://127.0.0.1:8200
+    volumes:
+      - ./vault/config:/vault/config:rw
+      - ./vault/certs:/mnt/certs:rw
+      - vault-data:/vault/file:rw
+    cap_add:
+      - IPC_LOCK
+    networks:
+      vault-network:
+        ipv4_address: 172.21.0.10
+        aliases:
+          - vault
+    entrypoint: vault server -config=/vault/config
+  unseal-sidecar:
+    image: hashicorp/vault:1.15
+    container_name: unseal-sidecar
+    environment:
+      VAULT_ADDR: https://vault:443
+      VAULT_SKIP_VERIFY: '1'
+    volumes:
+      # Store initial root + unseal token to allow for persisted storage over container restarts, see entrypoint
+      - vault-misc:/vault/operator:rw
+      - ./unseal-entrypoint.sh:/usr/local/bin/unseal-entrypoint.sh:rx
+    networks:
+       vault-network:
+         ipv4_address: 172.21.0.11
+         aliases:
+           - unseal-sidecar
+    entrypoint: /usr/local/bin/unseal-entrypoint.sh
+    depends_on:
+      vault:
+        condition: service_started
+
+networks:
+  vault-network:
+    ipam:
+      config:
+        - subnet: 172.21.0.0/24
+
+volumes:
+  vault-data:
+  vault-misc:
