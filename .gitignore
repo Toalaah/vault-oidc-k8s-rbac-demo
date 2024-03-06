@@ -1,5 +1,6 @@
-/KUBECONFIG
-/vault/certs/*
+KUBECONFIG
+vault/certs/*
+!vault/certs/.gitkeep
 *.tfstate*
 .terraform.lock.hcl
 .terraform

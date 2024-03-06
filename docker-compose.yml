@@ -22,6 +22,7 @@ services:
   unseal-sidecar:
     image: hashicorp/vault:1.15
     container_name: unseal-sidecar
+    restart: never
     environment:
       VAULT_ADDR: https://vault:443
       VAULT_SKIP_VERIFY: '1'
