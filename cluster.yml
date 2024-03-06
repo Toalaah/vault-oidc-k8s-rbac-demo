@@ -10,7 +10,8 @@ nodes:
       apiServer:
         extraArgs:
           oidc-issuer-url: 'https://vault.local/v1/identity/oidc/provider/k8s-oidc-provider'
-          oidc-client-id: todo
+          # this needs to be adapted to the generated client id of the vault oidc client
+          oidc-client-id: VdR3979Qwa2CRCtljFoFgWSuIItmXGc6
           oidc-username-claim: alias
           oidc-groups-claim: groups
           oidc-username-prefix: 'vault:'
