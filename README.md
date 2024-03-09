@@ -2,8 +2,8 @@
 
 ## Steps
 
-1. Bootstrap vault server and export credentials. Note that this will modify
-   your `/etc/hosts` file, so you may need to provide su credentials.
+1. Bootstrap the vault server and export credentials. Note that this will
+   modify your `/etc/hosts` file, so you may need to provide su credentials.
 
     ```bash
     $ make vault
@@ -108,7 +108,7 @@
 
 - The [`vault-users`](./terraform/modules/vault-users) terraform module was
   originally written by https://github.com/krysopath and was only mildly
-  adapted for this demo.
+  adapted for this demo, all credit goes to him.
 
 - In a sense one would not be wrong to claim that this is not "real" OIDC
   integration with vault as there is no standard authorization flow or similar
