@@ -2,6 +2,8 @@ ui = true
 
 disable_clustering = true
 
+api_addr = "https://vault.local"
+
 storage "file" {
   path = "/vault/file"
 }

@@ -1,21 +1,25 @@
 ---
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
+name: kind
 nodes:
-- role: worker
 - role: control-plane
   kubeadmConfigPatches:
     - |
       kind: ClusterConfiguration
       apiServer:
         extraArgs:
-          oidc-issuer-url: 'https://vault.local/v1/identity/oidc/provider/k8s-oidc-provider'
-          # this needs to be adapted to the generated client id of the vault oidc client
-          oidc-client-id: VdR3979Qwa2CRCtljFoFgWSuIItmXGc6
+          oidc-issuer-url: 'https://vault.local/v1/identity/oidc'
+          oidc-client-id: kind
           oidc-username-claim: alias
           oidc-groups-claim: groups
           oidc-username-prefix: 'vault:'
           oidc-groups-prefix: 'vault:'
+          oidc-ca-file: "/etc/ssl/certs/oidc/cert.crt"
   extraMounts:
   - hostPath: ./rootCA.pem
+    readOnly: true
     containerPath: /usr/local/share/ca-certificates/mkCertRootCA.crt
+  - hostPath: ./vault/certs/vault.local.crt
+    readOnly: true
+    containerPath: /etc/ssl/certs/oidc/cert.crt
